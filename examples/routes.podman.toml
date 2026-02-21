@@ -1,0 +1,132 @@
+# Podman Libpod API route mappings for permitd
+# Matches Podman REST API v4.x paths to Cedar actions
+
+# Container operations
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/containers/create"
+action = "containers:create"
+resource_type = "Container"
+resource_from = "wildcard"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/containers/json"
+action = "containers:list"
+resource_type = "Container"
+resource_from = "wildcard"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/containers/{id}/json"
+action = "containers:inspect"
+resource_type = "Container"
+resource_from = "path:id"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/containers/{id}/start"
+action = "containers:start"
+resource_type = "Container"
+resource_from = "path:id"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/containers/{id}/stop"
+action = "containers:stop"
+resource_type = "Container"
+resource_from = "path:id"
+
+[[routes]]
+method = "DELETE"
+path_pattern = "/v{version}/libpod/containers/{id}"
+action = "containers:remove"
+resource_type = "Container"
+resource_from = "path:id"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/containers/{id}/logs"
+action = "containers:logs"
+resource_type = "Container"
+resource_from = "path:id"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/containers/{id}/exec"
+action = "containers:exec"
+resource_type = "Container"
+resource_from = "path:id"
+
+# Image operations
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/images/pull"
+action = "images:pull"
+resource_type = "Image"
+resource_from = "query:reference"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/images/json"
+action = "images:list"
+resource_type = "Image"
+resource_from = "wildcard"
+
+[[routes]]
+method = "DELETE"
+path_pattern = "/v{version}/libpod/images/{id}"
+action = "images:remove"
+resource_type = "Image"
+resource_from = "path:id"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/build"
+action = "images:build"
+resource_type = "Image"
+resource_from = "wildcard"
+
+# Volume operations
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/volumes/create"
+action = "volumes:create"
+resource_type = "Volume"
+resource_from = "wildcard"
+
+[[routes]]
+method = "DELETE"
+path_pattern = "/v{version}/libpod/volumes/{id}"
+action = "volumes:remove"
+resource_type = "Volume"
+resource_from = "path:id"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/volumes/json"
+action = "volumes:list"
+resource_type = "Volume"
+resource_from = "wildcard"
+
+# Network operations
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/networks/create"
+action = "networks:create"
+resource_type = "Network"
+resource_from = "wildcard"
+
+[[routes]]
+method = "DELETE"
+path_pattern = "/v{version}/libpod/networks/{id}"
+action = "networks:remove"
+resource_type = "Network"
+resource_from = "path:id"
+
+[[routes]]
+method = "GET"
+path_pattern = "/v{version}/libpod/networks/json"
+action = "networks:list"
+resource_type = "Network"
+resource_from = "wildcard"
