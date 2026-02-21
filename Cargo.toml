@@ -1,0 +1,30 @@
+[package]
+name = "permitd"
+version = "0.1.0"
+edition = "2024"
+description = "OIDC Authorization Gateway Powered by Cedar"
+license = "Apache-2.0"
+
+[dependencies]
+axum = { version = "0.8", features = ["macros"] }
+cedar-policy = "4"
+clap = { version = "4", features = ["derive"] }
+hyper = { version = "1", features = ["full"] }
+hyper-util = { version = "0.1", features = ["full"] }
+http-body-util = "0.1"
+jsonwebtoken = "9"
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+toml = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+thiserror = "2"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace"] }
+bytes = "1"
+
+[dev-dependencies]
+wiremock = "0.6"
+tempfile = "3"
