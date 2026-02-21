@@ -1,0 +1,18 @@
+api:
+  dashboard: false
+
+entryPoints:
+  web:
+    address: ":8080"
+
+providers:
+  docker:
+    endpoint: "unix:///run/podman/podman.sock"
+    exposedByDefault: false
+    network: apps
+  file:
+    directory: "/etc/traefik/dynamic"
+    watch: true
+
+log:
+  level: INFO

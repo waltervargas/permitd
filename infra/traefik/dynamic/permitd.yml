@@ -1,0 +1,13 @@
+http:
+  routers:
+    permitd:
+      rule: "Host(`apps.walt3r.dev`)"
+      service: permitd
+      entryPoints:
+        - web
+
+  services:
+    permitd:
+      loadBalancer:
+        servers:
+          - url: "http://host.containers.internal:8081"
