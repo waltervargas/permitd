@@ -1,0 +1,33 @@
+namespace Permitd {
+    entity Workflow {
+        repository: String,
+        repository_owner: String,
+        ref: String,
+        workflow_ref: String,
+        actor: String,
+        environment: String,
+        runner_environment: String,
+    };
+    entity Container { name: String, };
+    entity Image { name: String, };
+    entity Volume { name: String, };
+    entity Network { name: String, };
+    action "containers:create" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:start" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:stop" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:remove" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:list" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:inspect" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:logs" appliesTo { principal: [Workflow], resource: [Container] };
+    action "containers:exec" appliesTo { principal: [Workflow], resource: [Container] };
+    action "images:pull" appliesTo { principal: [Workflow], resource: [Image] };
+    action "images:list" appliesTo { principal: [Workflow], resource: [Image] };
+    action "images:remove" appliesTo { principal: [Workflow], resource: [Image] };
+    action "images:build" appliesTo { principal: [Workflow], resource: [Image] };
+    action "volumes:create" appliesTo { principal: [Workflow], resource: [Volume] };
+    action "volumes:remove" appliesTo { principal: [Workflow], resource: [Volume] };
+    action "volumes:list" appliesTo { principal: [Workflow], resource: [Volume] };
+    action "networks:create" appliesTo { principal: [Workflow], resource: [Network] };
+    action "networks:remove" appliesTo { principal: [Workflow], resource: [Network] };
+    action "networks:list" appliesTo { principal: [Workflow], resource: [Network] };
+}

@@ -1,0 +1,24 @@
+[server]
+listen_addr = "0.0.0.0:8080"
+
+[upstream]
+socket_path = "/run/podman/podman.sock"
+
+[oidc]
+issuer = "https://token.actions.githubusercontent.com"
+audience = "permitd"
+jwks_cache_ttl_secs = 3600
+
+[cedar]
+schema_path = "/etc/permitd/schema.cedarschema"
+policy_dir = "/etc/permitd/policies/"
+
+[routes]
+mapping_file = "/etc/permitd/routes.toml"
+
+[logging]
+format = "json"
+level = "info"
+log_authorized = true
+log_denied = true
+log_jwt_claims = false
