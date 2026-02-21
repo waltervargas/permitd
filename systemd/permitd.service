@@ -1,0 +1,28 @@
+[Unit]
+Description=permitd - OIDC Authorization Gateway Powered by Cedar
+Documentation=https://github.com/waltercool/permitd
+After=network-online.target podman.socket
+Wants=network-online.target
+Requires=podman.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/permitd serve --config /etc/permitd/config.toml
+Restart=on-failure
+RestartSec=5
+User=permitd
+Group=permitd
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadOnlyPaths=/etc/permitd
+ReadWritePaths=/run/podman
+
+# Environment
+Environment=RUST_LOG=info
+
+[Install]
+WantedBy=multi-user.target
