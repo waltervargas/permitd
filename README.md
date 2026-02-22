@@ -127,6 +127,34 @@ permitd check --config config.toml \
 permitd routes --mapping routes.podman.toml
 ```
 
+## Deployment
+
+### Deploy Script
+
+The deploy script handles the full cycle: build, stop service, copy binary + config, restart.
+
+```bash
+# Full build + deploy
+sudo scripts/deploy.sh
+
+# Config-only deploy (skip cargo build)
+sudo scripts/deploy.sh --skip-build
+```
+
+This copies the binary to `/usr/local/bin/permitd` and config files (schema, routes, policies) to `/home/permitd/config/`, then restarts the systemd user service.
+
+### Initial Setup
+
+For first-time setup on a new machine, use the setup script to create the permitd user, directories, and systemd service:
+
+```bash
+sudo scripts/setup-permitd-user.sh
+```
+
+### TODO
+
+- [ ] Create a Debian package (`.deb`) for permitd following Debian packaging best practices (`debian/` directory with `control`, `rules`, `changelog`, `postinst`, etc.). This would replace the manual deploy script with proper `dpkg`/`apt` installation, systemd service management via `dh_installsystemd`, and config file handling via `conffiles`.
+
 ## Cedar Schema
 
 permitd maps GitHub OIDC claims to Cedar entities:
@@ -151,6 +179,7 @@ permitd maps GitHub OIDC claims to Cedar entities:
 | `Image` | `name` | Image reference (e.g., `ghcr.io/org/app:tag`) |
 | `Volume` | `name` | Volume name |
 | `Network` | `name` | Network name |
+| `Pod` | `name` | Pod name or `*` for create |
 
 ### Actions
 
@@ -160,6 +189,7 @@ permitd maps GitHub OIDC claims to Cedar entities:
 | Images | `pull`, `list`, `remove`, `build` |
 | Volumes | `create`, `remove`, `list` |
 | Networks | `create`, `remove`, `list` |
+| Pods | `create`, `start`, `stop`, `remove` |
 
 ## Route Mapping
 

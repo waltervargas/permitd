@@ -12,6 +12,7 @@ namespace Permitd {
     entity Image { name: String, };
     entity Volume { name: String, };
     entity Network { name: String, };
+    entity Pod { name: String, };
     action "containers:create" appliesTo { principal: [Workflow], resource: [Container] };
     action "containers:start" appliesTo { principal: [Workflow], resource: [Container] };
     action "containers:stop" appliesTo { principal: [Workflow], resource: [Container] };
@@ -30,4 +31,8 @@ namespace Permitd {
     action "networks:create" appliesTo { principal: [Workflow], resource: [Network] };
     action "networks:remove" appliesTo { principal: [Workflow], resource: [Network] };
     action "networks:list" appliesTo { principal: [Workflow], resource: [Network] };
+    action "pods:create" appliesTo { principal: [Workflow], resource: [Pod] };
+    action "pods:start" appliesTo { principal: [Workflow], resource: [Pod] };
+    action "pods:stop" appliesTo { principal: [Workflow], resource: [Pod] };
+    action "pods:remove" appliesTo { principal: [Workflow], resource: [Pod] };
 }

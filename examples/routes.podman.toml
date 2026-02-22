@@ -130,3 +130,32 @@ path_pattern = "/v{version}/libpod/networks/json"
 action = "networks:list"
 resource_type = "Network"
 resource_from = "wildcard"
+
+# Pod operations
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/pods/create"
+action = "pods:create"
+resource_type = "Pod"
+resource_from = "wildcard"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/pods/{id}/start"
+action = "pods:start"
+resource_type = "Pod"
+resource_from = "path:id"
+
+[[routes]]
+method = "POST"
+path_pattern = "/v{version}/libpod/pods/{id}/stop"
+action = "pods:stop"
+resource_type = "Pod"
+resource_from = "path:id"
+
+[[routes]]
+method = "DELETE"
+path_pattern = "/v{version}/libpod/pods/{id}"
+action = "pods:remove"
+resource_type = "Pod"
+resource_from = "path:id"
