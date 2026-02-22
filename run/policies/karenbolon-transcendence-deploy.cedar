@@ -1,16 +1,16 @@
-// Allow waltervargas/pong to pull only its own images
+// Allow karenbolon/Transcendence to pull only its own images
 permit (
     principal is Permitd::Workflow,
     action == Permitd::Action::"images:pull",
     resource
 )
 when {
-    principal.repository == "waltervargas/pong" &&
-    (principal.actor == "waltervargas" || principal.actor == "kellenr") &&
-    resource.name like "ghcr.io/waltervargas/pong:*"
+    principal.repository == "karenbolon/Transcendence" &&
+    principal.actor == "kellenr" &&
+    resource.name like "ghcr.io/karenbolon/transcendence:*"
 };
 
-// Allow waltervargas/pong to manage only waltervargas-pong-* containers
+// Allow karenbolon/Transcendence to manage only karenbolon-transcendence-* containers
 permit (
     principal is Permitd::Workflow,
     action in [
@@ -21,9 +21,9 @@ permit (
     resource
 )
 when {
-    principal.repository == "waltervargas/pong" &&
-    (principal.actor == "waltervargas" || principal.actor == "kellenr") &&
-    resource.name like "waltervargas-pong-*"
+    principal.repository == "karenbolon/Transcendence" &&
+    principal.actor == "kellenr" &&
+    resource.name like "karenbolon-transcendence-*"
 };
 
 // Container create: scoped by repo + actor only
@@ -35,6 +35,6 @@ permit (
     resource
 )
 when {
-    principal.repository == "waltervargas/pong" &&
-    (principal.actor == "waltervargas" || principal.actor == "kellenr")
+    principal.repository == "karenbolon/Transcendence" &&
+    principal.actor == "kellenr"
 };
