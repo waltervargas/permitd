@@ -6,7 +6,7 @@ permit (
 )
 when {
     principal.repository == "waltervargas/pong" &&
-    principal.actor in ["waltervargas"] &&
+    principal.actor == "waltervargas" &&
     resource.name like "ghcr.io/waltervargas/pong:*"
 };
 
@@ -22,13 +22,13 @@ permit (
 )
 when {
     principal.repository == "waltervargas/pong" &&
-    principal.actor in ["waltervargas"] &&
+    principal.actor == "waltervargas" &&
     resource.name like "pong-*"
 };
 
 // Container create: scoped by repo + actor only
 // TODO: permitd should extract container name from request body
-// to allow resource.name scoping on create (see issue/task)
+// to allow resource.name scoping on create (see issue #2)
 permit (
     principal is Permitd::Workflow,
     action == Permitd::Action::"containers:create",
@@ -36,5 +36,5 @@ permit (
 )
 when {
     principal.repository == "waltervargas/pong" &&
-    principal.actor in ["waltervargas"]
+    principal.actor == "waltervargas"
 };
