@@ -1,0 +1,17 @@
+services:
+  traefik:
+    image: traefik:v3
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /run/user/1000/podman/podman.sock:/run/podman/podman.sock:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./dynamic:/etc/traefik/dynamic:ro
+    networks:
+      - apps
+
+networks:
+  apps:
+    external: true
