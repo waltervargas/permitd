@@ -44,11 +44,23 @@ pub fn evaluate(
     match response.decision() {
         Decision::Allow => Ok(()),
         Decision::Deny => {
+            let diagnostics = response.diagnostics();
+            let reasons: Vec<String> = diagnostics
+                .reason()
+                .map(|id| id.to_string())
+                .collect();
+            let errors: Vec<String> = diagnostics
+                .errors()
+                .map(|e| e.to_string())
+                .collect();
             tracing::warn!(
                 principal = %claims.repository,
+                actor = %claims.actor,
                 action = %action,
                 resource_type = %resource_type,
                 resource_id = %resource_id,
+                matching_policies = ?reasons,
+                policy_errors = ?errors,
                 "Authorization denied"
             );
             Err(AppError::Forbidden)
