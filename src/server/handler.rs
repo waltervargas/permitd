@@ -21,6 +21,7 @@ pub struct AppState {
     pub proxy: UnixSocketProxy,
     pub log_authorized: bool,
     pub log_denied: bool,
+    pub log_jwt_claims: bool,
 }
 
 pub async fn health_check() -> impl IntoResponse {
@@ -85,6 +86,10 @@ pub async fn handle_request(
         }
     };
 
+    if state.log_jwt_claims {
+        tracing::debug!(claims = ?claims, "JWT claims");
+    }
+
     let route_match = match state.route_matcher.match_request(&method, &path) {
         Some(m) => m,
         None => {
@@ -106,6 +111,7 @@ pub async fn handle_request(
         &route_match.action,
         &route_match.resource_type,
         &resource_id,
+        state.log_denied,
     )?;
 
     if state.log_authorized {

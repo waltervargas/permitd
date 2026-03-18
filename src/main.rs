@@ -95,6 +95,7 @@ async fn serve(config_path: &str) -> Result<(), error::AppError> {
         proxy,
         log_authorized: config.logging.log_authorized,
         log_denied: config.logging.log_denied,
+        log_jwt_claims: config.logging.log_jwt_claims,
     });
 
     let app = Router::new()
@@ -164,7 +165,7 @@ fn check(
         nbf: 0,
         iat: 0,
     };
-    match cedar::eval::evaluate(&engine, &claims, action, resource_type, resource) {
+    match cedar::eval::evaluate(&engine, &claims, action, resource_type, resource, true) {
         Ok(()) => {
             println!(
                 "ALLOW: {} -> {} on {}::{}",

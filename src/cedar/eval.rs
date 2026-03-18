@@ -12,6 +12,7 @@ pub fn evaluate(
     action: &str,
     resource_type: &str,
     resource_id: &str,
+    log_denied: bool,
 ) -> Result<(), AppError> {
     let (principal_uid, entities) = build_entities(claims, resource_type, resource_id)?;
 
@@ -44,25 +45,27 @@ pub fn evaluate(
     match response.decision() {
         Decision::Allow => Ok(()),
         Decision::Deny => {
-            let diagnostics = response.diagnostics();
-            let reasons: Vec<String> = diagnostics
-                .reason()
-                .map(|id| id.to_string())
-                .collect();
-            let errors: Vec<String> = diagnostics
-                .errors()
-                .map(|e| e.to_string())
-                .collect();
-            tracing::warn!(
-                principal = %claims.repository,
-                actor = %claims.actor,
-                action = %action,
-                resource_type = %resource_type,
-                resource_id = %resource_id,
-                matching_policies = ?reasons,
-                policy_errors = ?errors,
-                "Authorization denied"
-            );
+            if log_denied {
+                let diagnostics = response.diagnostics();
+                let reasons: Vec<String> = diagnostics
+                    .reason()
+                    .map(|id| id.to_string())
+                    .collect();
+                let errors: Vec<String> = diagnostics
+                    .errors()
+                    .map(|e| e.to_string())
+                    .collect();
+                tracing::warn!(
+                    principal = %claims.repository,
+                    actor = %claims.actor,
+                    action = %action,
+                    resource_type = %resource_type,
+                    resource_id = %resource_id,
+                    matching_policies = ?reasons,
+                    policy_errors = ?errors,
+                    "Authorization denied"
+                );
+            }
             Err(AppError::Forbidden)
         }
     }
@@ -104,6 +107,7 @@ mod tests {
             "containers:list",
             "Container",
             "*",
+            true,
         );
         assert!(result.is_ok(), "Expected permit, got: {:?}", result);
     }
@@ -119,6 +123,7 @@ mod tests {
             "containers:list",
             "Container",
             "*",
+            true,
         );
         assert!(result.is_err());
     }
